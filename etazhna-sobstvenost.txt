@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление на етажна собственост</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-blue-600 text-white p-4">
+    <h1 class="text-2xl font-bold">Управление на етажна собственост</h1>
+  </header>
+
+  <main class="p-6 max-w-4xl mx-auto">
+    <section class="mb-6 bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">Добавяне на апартамент</h2>
+      <form id="addApartmentForm" class="space-y-4">
+        <input type="text" id="ownerName" placeholder="Име на собственик" class="w-full p-2 border rounded" required>
+        <input type="number" id="apartmentNumber" placeholder="№ на апартамент" class="w-full p-2 border rounded" required>
+        <input type="number" id="idealParts" placeholder="% идеални части" class="w-full p-2 border rounded" required>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Добави</button>
+      </form>
+    </section>
+
+    <section class="bg-white p-4 rounded shadow">
+      <h2 class="text-xl font-semibold mb-4">Списък на апартаменти</h2>
+      <table class="w-full text-left table-auto">
+        <thead>
+          <tr>
+            <th class="border-b p-2">№</th>
+            <th class="border-b p-2">Собственик</th>
+            <th class="border-b p-2">Ап. №</th>
+            <th class="border-b p-2">Идеални части</th>
+          </tr>
+        </thead>
+        <tbody id="apartmentList"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('addApartmentForm');
+    const apartmentList = document.getElementById('apartmentList');
+
+    let apartments = [];
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const owner = document.getElementById('ownerName').value;
+      const number = document.getElementById('apartmentNumber').value;
+      const parts = document.getElementById('idealParts').value;
+
+      const apartment = { owner, number, parts };
+      apartments.push(apartment);
+      renderApartments();
+      form.reset();
+    });
+
+    function renderApartments() {
+      apartmentList.innerHTML = '';
+      apartments.forEach((apt, index) => {
+        const row = `<tr>
+          <td class="border-b p-2">${index + 1}</td>
+          <td class="border-b p-2">${apt.owner}</td>
+          <td class="border-b p-2">${apt.number}</td>
+          <td class="border-b p-2">${apt.parts}%</td>
+        </tr>`;
+        apartmentList.innerHTML += row;
+      });
+    }
+  </script>
+</body>
+</html>
